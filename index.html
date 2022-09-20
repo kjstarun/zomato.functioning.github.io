@@ -232,7 +232,7 @@
             <img src="zomato-seeklogo.com.svg" alt="LOGO" height="45px" width="175px">
         </div>
         <!--  Trigger/Open The Modal -->
-        <button id="cartbutton" onclick="cartlist(cartset); popup();">Your Cart</button>
+        <button id="cartbutton" onclick="cartlist(cartset);">Your Cart</button>
 
         <!-- The Modal -->
         <div id="popup">
@@ -265,9 +265,7 @@
         // cartbutton.onclick = function() 
         // cartbutton.onclick = function() {cartlist(cartset)};
 
-        function popup(){
-            popup.style.display = "block";
-        }
+        cartbutton.onclick = function() {popup.style.display = "block";}
 
         // When the user clicks on (x), close the popup
         closebutton.onclick = function() {popup.style.display = "none";}

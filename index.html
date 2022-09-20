@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zomato</title>
+    <style>
+        *{
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        #viewport{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+            flex-wrap: wrap;
+            padding-top: 15px;
+            gap: 15px;
+        }
+        .header-container{
+            background-color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+        }
+        .logo{
+            padding: 20px 0 20px 80px;
+        }
+        #cartbutton{
+            background-color: rgb(227, 59, 59);
+            color: #fff;
+            text-align: center;
+            height: 40px;
+            margin-right: 80px;
+            width: 100px;
+            border: none;
+            border-radius: 50px;
+            /* padding: 2px; */
+        }
+        .parent-container{
+            display: flex;
+            flex-direction: column;
+            background-color: #fff;
+            border-radius: 15px;
+            height: 350px;
+            width: 300px;
+            padding: 10px 10px 20px 10px;
+            gap: 10px;
+            /* margin: 10px; */
+        }
+        .img-container{
+            width: 100%;
+            height: 200px;
+        }
+        .img1{
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 15px;
+        }
+        .child-container{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+        .two-left, .two-right{
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .three-left{
+            width: 70%;
+        }
+        .img2{
+            width: 80%;
+            height: 50%;
+            margin-top: 4px;
+        }
+        .one{
+            font-size: large;
+            font-weight: bold;
+        }
+        .two{
+            font-size: medium;
+            font-weight: lighter;
+            color: rgb(109, 109, 109);
+        }
+        .three{
+            font-size: smaller;
+            font-weight: lighter;
+            color: rgb(109, 109, 109);
+        }
+        .one-right{
+            background-color: green;
+            border-radius: 5px;
+            border: none;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            cursor: pointer;
+        }
+        .parent-container:hover{
+            box-shadow: 0 0 20px 10px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+        .addCartButton{
+            background-color: rgb(227, 59, 59);
+            color: #fff;
+            border: none;
+            border-radius: 20px;
+            padding: 10px;
+        }
+        .addCartButton:hover, .cartbutton:hover{
+            cursor: pointer;
+        }
+        #popup{
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            padding-top: 100px; /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+        .popup-menu{
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            /* height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center; */
+        }
+
+        /* The Close Button */
+        .close{
+            color: #aaaaaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,.close:focus{
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* cart css */
+
+        .parent-cart-container{
+            /* background-color: aqua; */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 400px;
+            width: 500px;
+            margin: auto;
+        }
+        .cart-header-container{
+            /* background-color: blue; */
+            box-shadow: rgba(0, 0, 0, 0.3) 0px 4px 12px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            position: sticky;
+            top: 0;
+        }
+        .list-container{
+            /* background-color: blueviolet; */
+            width: 100%;
+            min-height: 200px;
+            max-height: 300px;
+            overflow: auto;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+        .title-container{
+            background-color: #fff;
+            /* box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px; */
+            height: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+        }
+        .added-dish-cart-container{
+            /* background-color: cadetblue; */
+            height: 30px;
+            margin: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .cart-footer-container{
+            /* background-color: red; */
+            box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+            position: sticky;
+            bottom: 0;
+            width: 100%;
+            height: 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .cart-footer-container > button{
+            background-color: rgb(227, 59, 59);;
+            border-radius: 10px;
+            border: none;
+            padding: 10px;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <header class="header-container">
+        <div class="logo">
+            <img src="zomato-seeklogo.com.svg" alt="LOGO" height="45px" width="175px">
+        </div>
+        <!--  Trigger/Open The Modal -->
+        <button id="cartbutton" onclick="cartlist(cartset); popup();">Your Cart</button>
+
+        <!-- The Modal -->
+        <div id="popup">
+
+        <!-- Modal content -->
+        <div class="popup-menu">
+            <span class="close">x</span>
+            <div id="cart-viewport"></div>
+        </div>
+
+        </div>
+    </header>
+
+    <div id="viewport"></div>
+
+    
+    <script> 
+        const cartset=[];
+
+        // Get the popup
+        var popup = document.getElementById("popup");
+
+        // Get the button that opens the popup
+        var cartbutton = document.getElementById("cartbutton");
+
+        // Get the close element that closes the popup
+        var closebutton = document.getElementsByClassName("close")[0];
+
+        // When the user clicks the button, open the popup 
+        // cartbutton.onclick = function() 
+        // cartbutton.onclick = function() {cartlist(cartset)};
+
+        function popup(){
+            popup.style.display = "block";
+        }
+
+        // When the user clicks on (x), close the popup
+        closebutton.onclick = function() {popup.style.display = "none";}
+
+        // When the user clicks anywhere outside of the popup, close it
+        window.onclick = function(event) {
+        if (event.target == popup) {
+            popup.style.display = "none";
+        }
+        }
+        
+        const dataset = [
+            {
+                image1: "https://b.zmtcdn.com/data/pictures/5/1402715/e1011634bdc77f57afd7c185e49da31a_o2_featured_v2.jpg?output-format=webp",
+                name: "Vinay Hotel",
+                rate: "3.9 ★",
+                address: "Chicken Biryani",
+                price: 100,
+                quote: "1400+ orders placed here recently and follows all safety measures",
+                image2: "https://b.zmtcdn.com/data/o2_assets/0b07ef18234c6fdf9365ad1c274ae0631612687510.png",
+            },
+            {
+                image1: "https://b.zmtcdn.com/data/dish_photos/74f/e2e7ed2d5cfcd79b70dee590dbd8c74f.jpg?output-format=webp",
+                name: "Pandit Hotel",
+                rate: "3.8 ★",
+                address: "Noodles",
+                price: 150,
+                quote: "700+ orders placed here recently and follows all safety measures",
+                image2: "https://b.zmtcdn.com/data/o2_assets/0b07ef18234c6fdf9365ad1c274ae0631612687510.png",
+            },
+            {
+                image1: "https://b.zmtcdn.com/data/dish_photos/4ad/3c2fa59c0896dd6e8296bb09fdc6d4ad.jpg",
+                name: "Geetham Hotel",
+                rate: "4.5 ★",
+                address: "Grill Chicken",
+                price: 200,
+                quote: "2000+ orders placed here recently and follows all safety measures",
+                image2: "https://b.zmtcdn.com/data/o2_assets/0b07ef18234c6fdf9365ad1c274ae0631612687510.png",
+            },
+            {
+                image1: "https://b.zmtcdn.com/data/dish_photos/f89/30e61470e3ecbf68a65d23a8ca3e3f89.jpg",
+                name: "A2B Hotel",
+                rate: "4.5 ★",
+                address: "Mutton Biryani",
+                price: 250,
+                quote: "1400+ orders placed here recently and follows all safety measures",
+                image2: "https://b.zmtcdn.com/data/o2_assets/0b07ef18234c6fdf9365ad1c274ae0631612687510.png",
+            },
+            {
+                image1: "https://b.zmtcdn.com/data/pictures/5/1401685/4f670988beb5d0d0063aebef97ac9759_o2_featured_v2.jpg",
+                name: "BBQ Hotel",
+                rate: "4.0 ★",
+                address: "Mixed Buffet",
+                price: 500,
+                quote: "1000+ orders placed here recently and follows all safety measures",
+                image2: "https://b.zmtcdn.com/data/o2_assets/0b07ef18234c6fdf9365ad1c274ae0631612687510.png",
+            },
+            {
+                image1: "https://b.zmtcdn.com/data/dish_photos/162/48161896477d9686663a5782bca1d162.jpg?output-format=webp",
+                name: "Chinese Hotel",
+                rate: "3.7 ★",
+                address: "Soup",
+                price: 100,
+                quote: "500+ orders placed here recently and follows all safety measures",
+                image2: "https://b.zmtcdn.com/data/o2_assets/0b07ef18234c6fdf9365ad1c274ae0631612687510.png",
+            },
+            {
+                image1: "https://b.zmtcdn.com/data/pictures/chains/2/1400082/d952ed7658e94591765c61b612089d89_o2_featured_v2.jpg",
+                name: "Nandhana Hotel",
+                rate: "4.2 ★",
+                address: "Mini Tiffin",
+                price: 400,
+                quote: "1100+ orders placed here recently and follows all safety measures",
+                image2: "https://b.zmtcdn.com/data/o2_assets/0b07ef18234c6fdf9365ad1c274ae0631612687510.png",
+            },
+            {
+                image1: "https://b.zmtcdn.com/data/pictures/chains/8/18821018/0c344698724cb6aaf7d48b59719401ce_o2_featured_v2.jpg",
+                name: "Annapoorna Hotel",
+                rate: "4.3 ★",
+                address: "Full Meals",
+                price: 150,
+                quote: "1700+ orders placed here recently and follows all safety measures",
+                image2: "https://b.zmtcdn.com/data/o2_assets/0b07ef18234c6fdf9365ad1c274ae0631612687510.png",
+            },
+            {
+                image1: "https://b.zmtcdn.com/data/pictures/chains/7/1400127/18948bbc7010759a363d74acb43454d9_o2_featured_v2.jpg",
+                name: "KFC",
+                rate: "4.0 ★",
+                address: "Snacks pack",
+                price: 100,
+                quote: "900+ orders placed here recently and follows all safety measures",
+                image2: "https://b.zmtcdn.com/data/o2_assets/0b07ef18234c6fdf9365ad1c274ae0631612687510.png",
+            },
+        ];
+
+        const viewport = document.getElementById("viewport");
+
+
+        for (const i of dataset) {
+            // Parent-container
+
+            const parentContainer = document.createElement("div");
+            parentContainer.className = "parent-container";
+            // parentContainer.addEventListener("click", displayName);
+
+            // Image-container
+
+            const imageContainer = document.createElement("div");
+            imageContainer.className = "image-container";
+
+            const imageTag1 = document.createElement("img");
+            imageTag1.className = "img1";
+            imageTag1.src = i.image1;
+            imageContainer.appendChild(imageTag1)
+
+            // child-one
+
+            const childContainerOne = document.createElement("div");
+            childContainerOne.className = "child-container one";
+
+            const oneLeft = document.createElement("div");
+            oneLeft.className = "one-left";
+            oneLeft.innerHTML = i.name;
+
+            const oneRight = document.createElement("button");
+            oneRight.className = "one-right";
+            oneRight.innerHTML = i.rate;
+
+            childContainerOne.appendChild(oneLeft);
+            childContainerOne.appendChild(oneRight);
+
+            // child-two
+
+            const childContainerTwo = document.createElement("div");
+            childContainerTwo.className = "child-container two";
+
+            const twoLeft = document.createElement("div");
+            twoLeft.className = "two-left";
+            twoLeft.innerHTML = i.address;
+
+            const twoRight = document.createElement("div");
+            twoRight.className = "two-right";
+            twoRight.innerHTML = "₹" + i.price + " for one";
+
+            childContainerTwo.appendChild(twoLeft);
+            childContainerTwo.appendChild(twoRight);
+
+            // child-three
+
+            const childContainerThree = document.createElement("div");
+            childContainerThree.className = "child-container three";
+
+            const threeLeft = document.createElement("div");
+            threeLeft.className = "three-left";
+            threeLeft.innerHTML = i.quote;
+
+            const threeRight = document.createElement("div");
+            threeRight.className = "three-right";
+
+            const imageTag2 = document.createElement("img");
+            imageTag2.className = "img2";
+            imageTag2.src = i.image2;
+            threeRight.appendChild(imageTag2);
+
+            childContainerThree.appendChild(threeLeft);
+            childContainerThree.appendChild(threeRight);
+
+            // add item
+
+            const addCartContainer = document.createElement("button");
+            addCartContainer.className = "addCartButton";
+            addCartContainer.innerHTML = "ADD ITEM";
+            addCartContainer.onclick = function() {addnewitem(i.address, i.price)};
+            // addCartContainer.onclick = addnewitem(i.address, i.price);
+          
+            // cartlist(i.count, i.address, i.price);
+
+            // adding all containers
+
+            parentContainer.appendChild(imageContainer);
+            parentContainer.appendChild(childContainerOne);
+            parentContainer.appendChild(childContainerTwo);
+            parentContainer.appendChild(childContainerThree); 
+            parentContainer.appendChild(addCartContainer);
+           
+            viewport.appendChild(parentContainer);
+
+            // function displayName() {
+            //          console.log(i.name+", it costs "+i.price);
+            // }
+
+      
+        }
+        // function addnewitem(name, price){
+        //     exists = cartset.some(name=>name === cartset.dish_address);
+
+        //     if (exists){
+        //         window.alert("already there");
+        //     }else{
+        //         cartset.push(
+        //         {
+        //             dish_address: name,
+        //             dish_count: 1,
+        //             dish_price: price,
+        //         }); 
+        //     }
+        // }   
+        
+        // function callcart(cartset){
+            const cartViewport = document.getElementById("cart-viewport");
+
+            const parentCont = document.createElement("div");
+            parentCont.className = "parent-cart-container";
+
+            // creating head
+            
+            const cartHeaderContainer = document.createElement("div");
+            cartHeaderContainer.className = "cart-header-container";
+
+            // adding text to head
+
+            const cartHead = document.createElement("h3");
+            cartHead.textContent = "Your Cart"
+            cartHeaderContainer.appendChild(cartHead);
+
+            // adding list
+
+            const listContainer = document.createElement("div");
+            listContainer.className = "list-container";
+
+            // adding list titles
+
+            const titleContainer = document.createElement("div");
+            titleContainer.className = "title-container";
+
+            // adding dish title
+
+            const dishNameTitleContainer = document.createElement("div");
+            dishNameTitleContainer.className = "dish-name-container";
+            dishNameTitleContainer.textContent = "DISH";
+
+            // adding quantity title
+
+            const dishQuantityTitleContainer = document.createElement("div");
+            dishQuantityTitleContainer.className = "dish-quantity-container";
+            dishQuantityTitleContainer.textContent = "QUANTITY";
+
+            // adding price title
+
+            const dishPriceTitleContainer = document.createElement("div");
+            dishPriceTitleContainer.className = "dish-price-container";
+            dishPriceTitleContainer.textContent = "PRICE";
+
+            // adding titles to main container
+
+            titleContainer.appendChild(dishNameTitleContainer);
+            titleContainer.appendChild(dishQuantityTitleContainer);
+            titleContainer.appendChild(dishPriceTitleContainer);
+
+            listContainer.appendChild(titleContainer);
+
+            // adding cart items
+            function cartlist(cartset){
+                for (const i of cartset) {
+                    console.log("carstet");
+
+                    const addedDishCartContainer = document.createElement("div");
+                    addedDishCartContainer.className = "added-dish-cart-container";
+    
+                        const dishNameContainer = document.createElement("div");
+                        dishNameContainer.className = "dish-name";
+                        dishNameContainer.textContent = i.addrress;
+
+                        const dishQuantityContainer = document.createElement("div");
+                        dishQuantityContainer.className = "dish-quantity";
+    
+                        const addItem = document.createElement("button");
+                        addItem.className = "add-button cartbut";
+                        addItem.onclick = "addCount";
+    
+                        const countDisplay = document.createElement("h2");
+                        countDisplay.className = "countdisplay"
+                        // countDisplay.textContent = i.count;
+    
+                        const minusItem = document.createElement("button");
+                        minusItem.className = "minus-button"
+                        minusItem.onclick = "minusCount"
+    
+                        dishQuantityContainer.appendChild(addItem);
+                        dishQuantityContainer.appendChild(countDisplay);
+                        dishQuantityContainer.appendChild(minusItem);
+    
+                        const dishPriceContainer = document.createElement("div");
+                        dishPriceContainer.className = "dish-price cartbut";
+                    }
+                }
+                
+        
+            // adding total and confirm
+
+            const cartFooterContainer = document.createElement("div");
+            cartFooterContainer.className = "cart-footer-container";
+
+            // creating total
+
+            const cartTotalContainer = document.createElement("div");
+            cartTotalContainer.className = "cart-total-container";
+            cartTotalContainer.textContent = "Grand Total:";
+
+            // adding total price
+
+            const totalPrice = document.createElement("span");
+            // total();
+
+            cartTotalContainer.appendChild(totalPrice);
+
+            // adding confirm buttton
+
+            const cartConfirmButton = document.createElement("button");
+            cartConfirmButton.textContent = "Place Order";
+
+            // adding to footer
+
+            cartFooterContainer.appendChild(cartTotalContainer);
+            cartFooterContainer.appendChild(cartConfirmButton);
+
+            // adding to main
+
+            parentCont.appendChild(cartHeaderContainer);
+            parentCont.appendChild(listContainer);
+            parentCont.appendChild(cartFooterContainer);
+
+            cartViewport.appendChild(parentCont);
+        // }
+
+        // cartset.push(
+        //         {
+        //             dish_address: name,
+        //             dish_count: 1,
+        //             dish_price: price,
+        //         });  
+        
+        function addnewitem(name,price){
+            cartset.push(
+                {
+                    dish_address: name,
+                    dish_count: 1,
+                    dish_price: price,
+                }
+            )
+        }
+
+    </script>
+</body>
+</html>

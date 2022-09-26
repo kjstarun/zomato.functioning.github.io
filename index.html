@@ -4,14 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Zomato</title>
     <style>
         * {
             margin: 0;
             font-family: Arial, Helvetica, sans-serif;
         }
-
+        
         #viewport {
             display: flex;
             flex-direction: row;
@@ -135,9 +135,10 @@
         }
 
         .addCartButton:hover,
-        .cartbutton:hover {
+        #cartbutton:hover {
             cursor: pointer;
         }
+
 
         #popup {
             display: none;
@@ -164,14 +165,13 @@
 
         .popup-menu {
             background-color: #fefefe;
+            /* background-color: aqua; */
             margin: auto;
-            padding: 20px;
+            padding: 5px 20px 40px 20px;
             border: 1px solid #888;
             width: 80%;
-            /* height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center; */
+            box-shadow: rgba(0, 0, 0, 0.8) 0px 4px 12px;
+            border-radius: 25px;
         }
 
         /* The Close Button */
@@ -180,6 +180,7 @@
             float: right;
             font-size: 28px;
             font-weight: bold;
+            padding-bottom: 10px;
         }
 
         .close:hover,
@@ -197,56 +198,87 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 400px;
-            width: 800px;
+            height: 300px;
+            width: 100%;
             margin: auto;
+            /* max-height: 400px; */
         }
 
         .cart-header-container {
             /* background-color: blue; */
-            box-shadow: rgba(0, 0, 0, 0.3) 0px 4px 12px;
+            /* box-shadow: rgba(0, 0, 0, 0.3) 0px 4px 12px; */
             height: 50px;
             display: flex;
             justify-content: center;
             align-items: center;
             width: 100%;
+            padding-bottom: 20px;
             position: sticky;
             top: 0;
+            color: rgb(227, 59, 59);
+            /* text-align: center; */
+            font-size: 30px;
+            font-weight: bolder;
         }
 
-        .list-container {
+        .list-container{
             /* background-color: blueviolet; */
             width: 100%;
             min-height: 150px;
-            max-height: 200px;
+            max-height: 150px;
             /* overflow-x: hidden; */
-            overflow-y: scroll;
+            overflow-y: hidden;
             display: flex;
             flex-direction: column;
             /* flex-wrap: wrap; */
             /* position: relative; */
+        }
+        .list-container:hover{
+            overflow-y: auto;
+        }
+        ::-webkit-scrollbar{
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track{
+            border-radius: 5px;
+            box-shadow: inset 0 0 5px grey;
+        }
+        ::-webkit-scrollbar-thumb{
+            background-color: rgb(227, 59, 59); 
+            border-radius: 5px;
+        }
+
+        .title-head-container{
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .title-container {
             background-color: #fff;
             /* box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px; */
             height: 40px;
+            width: 100%;
             display: flex;
             justify-content: space-between;
             align-items: center;
             position: sticky;
             top: 0;
+            margin-bottom: 20px;
+            border-bottom: 2px solid rgba(128, 128, 128, 0.217);
         }
 
         .added-dish-cart-container {
             /* background-color: cadetblue; */
-            height: 30px;
+            min-height: 50px;
             /* margin: 10px; */
             width: 99%;
             display: flex;
             flex-direction: row;
-            justify-content: space-between;
-            align-items: flex-start;
+            justify-content: center;
+            align-items: center;
+            border-bottom: 1px solid rgba(128, 128, 128, 0.217);
         }
 
         .dish-name {
@@ -260,7 +292,20 @@
             display: flex;
             justify-content: space-evenly;
             align-items: center;
-            margin-left: 0;
+            /* margin-left: 0; */
+            margin: auto;
+        }
+
+        .countdisplay {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 20px;
+            width: 20px;
+            border: 1px solid red;
+            text-align: center;
+            font-size: 15px;
+            font-weight: lighter;
         }
 
         .dish-price {
@@ -270,23 +315,26 @@
         }
 
         .cartbut {
-            width: 25px;
-            height: 25px;
+            width: 20px;
+            height: 20px;
             border-radius: 50px;
             text-align: center;
-            border: none;
+            border: 1px solid rgb(227, 59, 59);
+            color: rgb(227, 59, 59);
         }
 
         .cart-footer-container {
             /* background-color: red; */
-            box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+            /* box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px; */
             position: sticky;
             bottom: 0;
             width: 100%;
             height: 50px;
+            margin-top: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-top: 5px;
         }
 
         .cart-footer-container>button {
@@ -298,9 +346,76 @@
             color: #fff;
         }
 
-        /* #cart-viewport{
-            display: none;
-        } */
+        /* snackbar */
+        #snackbar {
+            visibility: hidden;
+            min-width: 250px;
+            margin-left: -125px;
+            background-color: rgba(227, 59, 59, 0.881);
+            color: #fff;
+            text-align: center;
+            border-radius: 2px;
+            padding: 10px;
+            position: fixed;
+            z-index: 1;
+            left: 50%;
+            bottom: 30px;
+            font-size: 17px;
+        }
+
+        #snackbar.show {
+            visibility: visible;
+            -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+
+        @-webkit-keyframes fadein {
+            from {
+                bottom: 0;
+                opacity: 0;
+            }
+
+            to {
+                bottom: 30px;
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadein {
+            from {
+                bottom: 0;
+                opacity: 0;
+            }
+
+            to {
+                bottom: 30px;
+                opacity: 1;
+            }
+        }
+
+        @-webkit-keyframes fadeout {
+            from {
+                bottom: 30px;
+                opacity: 1;
+            }
+
+            to {
+                bottom: 0;
+                opacity: 0;
+            }
+        }
+
+        @keyframes fadeout {
+            from {
+                bottom: 30px;
+                opacity: 1;
+            }
+
+            to {
+                bottom: 0;
+                opacity: 0;
+            }
+        }
     </style>
 </head>
 
@@ -325,6 +440,7 @@
     </header>
 
     <div id="viewport"></div>
+    <div id="snackbar"></div>
 
     <script>
         const cartset = [];
@@ -514,7 +630,8 @@
             const addCartContainer = document.createElement("button");
             addCartContainer.className = "addCartButton";
             addCartContainer.innerHTML = "ADD ITEM";
-            addCartContainer.onclick = function () { addnewitem(i.address, i.price) };
+            addCartContainer.onclick = function () { addnewitem(i.address, i.price); snackbar(i.address) };
+
 
             // adding all containers
 
@@ -540,44 +657,50 @@
         // adding text to head
 
         const cartHead = document.createElement("h3");
-        cartHead.textContent = "Your Cart"
+        cartHead.textContent = "Your Cart";
+        cartHead.className = "cart-head";
         cartHeaderContainer.appendChild(cartHead);
 
+        const titleHeadContainer = document.createElement("div");
+        titleHeadContainer.className = "title-head-container";
+
+        
+        // adding list titles
+        
+        const titleContainer = document.createElement("div");
+        titleContainer.className = "title-container";
+        
+        // adding dish title
+        
+        const dishNameTitleContainer = document.createElement("div");
+        dishNameTitleContainer.className = "dish-name-container";
+        dishNameTitleContainer.textContent = "DISH";
+        
+        // adding quantity title
+        
+        const dishQuantityTitleContainer = document.createElement("div");
+        dishQuantityTitleContainer.className = "dish-quantity-container";
+        dishQuantityTitleContainer.textContent = "QUANTITY";
+        
+        // adding price title
+        
+        const dishPriceTitleContainer = document.createElement("div");
+        dishPriceTitleContainer.className = "dish-price-container";
+        dishPriceTitleContainer.textContent = "PRICE";
+        
+        
+        // adding titles to main container
+        
+        titleContainer.appendChild(dishNameTitleContainer);
+        titleContainer.appendChild(dishQuantityTitleContainer);
+        titleContainer.appendChild(dishPriceTitleContainer);
+        
+        titleHeadContainer.appendChild(titleContainer);
+        
         // adding list
 
         const listContainer = document.createElement("div");
         listContainer.className = "list-container";
-
-        // adding list titles
-
-        const titleContainer = document.createElement("div");
-        titleContainer.className = "title-container";
-
-        // adding dish title
-
-        const dishNameTitleContainer = document.createElement("div");
-        dishNameTitleContainer.className = "dish-name-container";
-        dishNameTitleContainer.textContent = "DISH";
-
-        // adding quantity title
-
-        const dishQuantityTitleContainer = document.createElement("div");
-        dishQuantityTitleContainer.className = "dish-quantity-container";
-        dishQuantityTitleContainer.textContent = "QUANTITY";
-
-        // adding price title
-
-        const dishPriceTitleContainer = document.createElement("div");
-        dishPriceTitleContainer.className = "dish-price-container";
-        dishPriceTitleContainer.textContent = "PRICE";
-
-        // adding titles to main container
-
-        titleContainer.appendChild(dishNameTitleContainer);
-        titleContainer.appendChild(dishQuantityTitleContainer);
-        titleContainer.appendChild(dishPriceTitleContainer);
-
-        listContainer.appendChild(titleContainer);
 
         // adding cart items
         function cartlist(name, count, price,) {
@@ -607,9 +730,9 @@
             addItem.textContent = "+";
             addItem.onclick = function () { addCount() }
 
-            dishQuantityContainer.appendChild(addItem);
-            dishQuantityContainer.appendChild(countDisplay);
             dishQuantityContainer.appendChild(minusItem);
+            dishQuantityContainer.appendChild(countDisplay);
+            dishQuantityContainer.appendChild(addItem);
 
             const dishPriceContainer = document.createElement("div");
             dishPriceContainer.className = "dish-price";
@@ -627,13 +750,17 @@
                     dish_price: price,
                 });
             function addCount() {
-                count++;
-                countDisplay.textContent = count;
-                dishprice(count, price);
-                cartset.forEach(cartset => {
-                    if (cartset.dish_address === name) cartset.dish_count = count;
-                });
-                totalgrand(cartset);
+                if (count < 20) {
+                    count++;
+                    countDisplay.textContent = count;
+                    dishprice(count, price);
+                    cartset.forEach(cartset => {
+                        if (cartset.dish_address === name) cartset.dish_count = count;
+                    });
+                    totalgrand(cartset);
+                } else {
+                    window.alert("Maximum limit of item reached");
+                }
             }
             function minusCount() {
                 if (count > 0) {
@@ -693,6 +820,7 @@
         // adding to main
 
         parentCont.appendChild(cartHeaderContainer);
+        parentCont.appendChild(titleHeadContainer);
         parentCont.appendChild(listContainer);
         parentCont.appendChild(cartFooterContainer);
 
@@ -714,25 +842,36 @@
                 count = 1;
                 cartlist(name, count, price);
                 totalgrand(cartset);
-                notifyme();
+                // notifyme();
             }
-            function notifyme() {
-                var n = name;
+            // function notifyme() {
+            //     var n = name;
 
-                if (!("Notification" in window)) {
-                    alert("This browser does not support notification");
-                }
-                else if (Notification.permission === "granted") {
-                    const notification = new Notification(n);
-                }
-                else if (Notification.permission !== "denied") {
-                    Notification.requestPermission().then((permission) => {
-                        if (permission === "granted") {
-                            const notification = new Notification(n);
-                        }
-                    });
-                }
-            }
+            //     if (!("Notification" in window)) {
+            //         alert("This browser does not support notification");
+            //     }
+            //     else if (Notification.permission === "granted") {
+            //         const notification = new Notification(n);
+            //     }
+            //     else if (Notification.permission !== "denied") {
+            //         Notification.requestPermission().then((permission) => {
+            //             if (permission === "granted") {
+            //                 const notification = new Notification(n);
+            //             }
+            //         });
+            //     }
+            // }
+        }
+        // const snackbarContainer = document.createElement("div");
+        // snackbarContainer.setAttribute = ("id", "snackbar");
+        // snackbarContainer.textContent = "Some";
+
+
+        function snackbar(address) {
+            var x = document.getElementById("snackbar");
+            x.textContent = "Added " + address + " to cart";
+            x.className = "show";
+            setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
         }
 
     </script>
